@@ -259,6 +259,13 @@ echo -ne "${BOLD}${BYELLOW}
 ${RESET}"
 info_print "Welcome to easy-arch, a script made in order to simplify the process of installing Arch Linux."
 
+info_print "To begin installation, you may need to connect to WiFi. Use the following commands to connect to an available network:\n"
+info_print "iwctl"
+info_print "device list"
+info_print "station {device} scan"
+info_print "station {device} get-networks"
+info_print "station {device} connect {SSID}"
+
 # Setting up keyboard layout.
 until keyboard_selector; do : ; done
 
@@ -356,6 +363,10 @@ mount "$ESP" /mnt/boot/
 
 # Checking the microcode to install.
 microcode_detector
+
+# Reflector (configures the mirror list for pacman)
+info_print "Running Reflector to update mirrors before pacstrap"
+reflector -l 24 --sort rate -c US -p https --save /etc/pacman.d/mirrorlist
 
 # Pacstrap (setting up a base sytem onto the new root).
 info_print "Installing the base system (it may take a while)."
@@ -479,6 +490,9 @@ services=(reflector.timer snapper-timeline.timer snapper-cleanup.timer btrfs-scr
 for service in "${services[@]}"; do
     systemctl enable "$service" --root=/mnt &>/dev/null
 done
+
+# Copying configuration for Reflector
+cp ./configs/reflector.conf /mnt/etc/xdg/reflector/reflector.conf
 
 # Finishing up.
 info_print "Done, you may now wish to reboot (further changes can be done by chrooting into /mnt)."
