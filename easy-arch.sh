@@ -370,7 +370,7 @@ reflector -l 24 --sort rate -c US -p https --save /etc/pacman.d/mirrorlist
 
 # Pacstrap (setting up a base sytem onto the new root).
 info_print "Installing the base system (it may take a while)."
-pacstrap -K /mnt base "$kernel" "$microcode" linux-firmware "$kernel"-headers btrfs-progs grub grub-btrfs rsync efibootmgr snapper reflector snap-pac zram-generator sudo &>/dev/null
+pacstrap -K /mnt base base-devel "$kernel" "$microcode" linux-firmware "$kernel"-headers btrfs-progs efibootmgr grub grub-btrfs man-db man-pages nano openssh rsync reflector snap-pac snapper sudo unzip zip zram-generator &>/dev/null
 
 # Setting up the hostname.
 echo "$hostname" > /mnt/etc/hostname
@@ -496,4 +496,5 @@ cp ./configs/reflector.conf /mnt/etc/xdg/reflector/reflector.conf
 
 # Finishing up.
 info_print "Done, you may now wish to reboot (further changes can be done by chrooting into /mnt)."
+info_print "You may want to install an AUR helper and graphics drivers."
 exit
