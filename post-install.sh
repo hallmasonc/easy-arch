@@ -1,7 +1,7 @@
-!#/bin/bash
+#!/bin/bash
 
 # Uncomment multilib repo
-sed -i "/\[multilib\]/,/Include/"'s/^#*//' /etc/pacman.conf
+sudo sed -i "/\[multilib\]/,/Include/"'s/^#*//' /etc/pacman.conf
 
 # Install pacman packages
 sudo pacman -S --needed - < ./pacman.txt
@@ -32,10 +32,8 @@ else
     yay -S --needed - < ./yay.txt
 fi
 
-echo "$(pwd)"
-
 # Add flathub as remote for flatpaks
-flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Install flatpaks
 xargs flatpak --user install -y < ./flatpak.txt
