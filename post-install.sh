@@ -3,6 +3,9 @@
 # Uncomment multilib repo
 sudo sed -i "/\[multilib\]/,/Include/"'s/^#*//' /etc/pacman.conf
 
+# Force pacman database update
+sudo pacman -Syy
+
 # Install pacman packages
 sudo pacman -S --needed - < ./pacman.txt
 
@@ -37,3 +40,6 @@ flatpak remote-add --user flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Install flatpaks
 xargs flatpak --user install -y < ./flatpak.txt
+
+# Enable lightdm service
+sudo systemctl enable lightdm.service

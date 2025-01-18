@@ -32,6 +32,7 @@ rofi
 sof-firmware
 speedtest-cli
 steam
+stow
 thunar
 tree
 ttf-fira-mono
