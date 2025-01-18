@@ -1,7 +1,7 @@
 !#/bin/bash
 
 # Uncomment multilib repo
-sed -i "/\[multilib\]/,/Include/"'s/^#*//'
+sed -i "/\[multilib\]/,/Include/"'s/^#*//' /etc/pacman.conf
 
 # Install pacman packages
 sudo pacman -S --needed - < ./pacman.txt
