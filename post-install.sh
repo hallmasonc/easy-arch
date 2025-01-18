@@ -1,10 +1,16 @@
 !#/bin/bash
 
-# variables
+# Uncomment multilib repo
+sed -i "/\[multilib\]/,/Include/"'s/^#*//'
+
+# Install pacman packages
+sudo pacman -S --needed - < ./pacman.txt
+
+# Variables
 yay="https://aur.archlinux.org/yay.git"
 yayDir="./yay"
 
-# function
+# Function
 cloneFunction () {
     git clone $1
 }
@@ -15,16 +21,15 @@ cloneFunction $yay
 if [ ! -d "$yayDir" ]; then
     echo "failed to clone yay repo"
 else
-    # move and build
+    # Move directory and build
     cd $yayDir
-    ls -la ./
-    #makepkg -si
-
-    # Check yay version
-    yay --version
+    makepkg -si
 
     # Return to parent directory
     cd ../
+
+    # Install yay packages
+    yay -S --needed - < ./yay.txt
 fi
 
 echo "$(pwd)"
