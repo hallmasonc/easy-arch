@@ -11,25 +11,25 @@ sudo pacman -S --needed - < ./pacman.txt
 
 # Variables
 yay="https://aur.archlinux.org/yay.git"
-yayDir="./yay"
+yayDir="/opt"
 
 # Function
 cloneFunction () {
-    git clone $1
+    git clone $1 $2
 }
 
 # Install yay as AUR helper
-cloneFunction $yay
+cloneFunction $yay $yayDir
 
 if [ ! -d "$yayDir" ]; then
     echo "failed to clone yay repo"
 else
     # Move directory and build
     cd $yayDir
-    makepkg -si
+    makepkg --noconfirm -si
 
-    # Return to parent directory
-    cd ../
+    # Return to home directory
+    cd ~/
 
     # Install yay packages
     yay -S --needed - < ./yay.txt
