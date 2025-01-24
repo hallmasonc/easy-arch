@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Variables
+yay="https://aur.archlinux.org/yay.git"
+yayDir="~/yay"
+
 # Uncomment multilib repo
 sudo sed -i "/\[multilib\]/,/Include/"'s/^#*//' /etc/pacman.conf
 
@@ -8,10 +12,6 @@ sudo pacman -Syy
 
 # Install pacman packages
 sudo pacman -S --needed - < ./pacman.txt
-
-# Variables
-yay="https://aur.archlinux.org/yay.git"
-yayDir="/opt"
 
 # Function
 cloneFunction () {
@@ -28,8 +28,11 @@ else
     cd $yayDir
     makepkg --noconfirm -si
 
-    # Return to home directory
-    cd ~/
+    # Move back to previous directory
+    cd -
+
+    # Remove yay directory (cleanup)
+    rm -rf $yayDir
 
     # Install yay packages
     yay -S --needed - < ./yay.txt
